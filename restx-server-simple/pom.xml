@@ -63,5 +63,13 @@
             <version>1.9.5</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- TODO: TO REMOVE ! -->
+        <dependency>
+            <groupId>io.restx</groupId>
+            <artifactId>restx-servlet</artifactId>
+            <version>${restx.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

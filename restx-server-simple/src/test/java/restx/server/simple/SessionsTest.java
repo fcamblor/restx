@@ -18,6 +18,11 @@ public class SessionsTest {
             return SimpleWebServer.builder().setPort(port).build();
         }
     }, RestxSpecRule.defaultFactory());
+//    // TODO: TO REMOVE !
+//    @ClassRule
+//    public static RestxSpecRule rule = new RestxSpecRule(
+//        "src/test/webapp/WEB-INF/web.xml",
+//        "src/test/webapp");
 
     @Test
     public void should_authentication_be_successful() throws Exception {
