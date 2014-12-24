@@ -20,6 +20,7 @@ public class ValidationResource {
     private static final Logger LOG = LoggerFactory.getLogger(ValidationResource.class);
 
     public static interface MyCustomValidationGroup{}
+    public static final String MyCustomValidationGroupFQN = "samplest.validation.ValidationResource.MyCustomValidationGroup";
 
     @PermitAll
     @POST("/valid/pojos")
@@ -29,13 +30,13 @@ public class ValidationResource {
 
     @PermitAll
     @POST("/valid/pojos2")
-    public void createPOJOWithAnnotation(@ValidatedFor(FormValidations.Create.class) POJO myPojo) {
+    public void createPOJOWithAnnotation(@ValidatedFor(FormValidations.CreateFQN) POJO myPojo) {
         LOG.info("Pojo {} {} created !", myPojo.getName(), myPojo.getSubPOJO().getLabel());
     }
 
     @PermitAll
     @PUT("/valid/pojos/{id}")
-    public void createPOJOWithoutAnnotation(Long id, @ValidatedFor({MyCustomValidationGroup.class, FormValidations.Update.class}) POJO myPojo) {
+    public void createPOJOWithoutAnnotation(Long id, @ValidatedFor({MyCustomValidationGroupFQN, FormValidations.UpdateFQN}) POJO myPojo) {
         LOG.info("Pojo {} {} updated !", myPojo.getName(), myPojo.getSubPOJO().getLabel());
     }
 }

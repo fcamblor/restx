@@ -9,5 +9,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ValidatedFor {
-    Class[] value();
+    // Validation group FQN here
+    String[] value();
 }
