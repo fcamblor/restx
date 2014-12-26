@@ -172,6 +172,8 @@ public class RestxAnnotationProcessor extends RestxAbstractProcessor {
                 }
             }
 
+            // Doesn't work...
+            // Class[] validationGroups = getAnnotationValue(p, ValidatedFor.class, "value", Class[].class);
             ValidatedFor validatedFor = p.getAnnotation(ValidatedFor.class);
 
             String[] validationGroups = new String[0];
@@ -191,6 +193,20 @@ public class RestxAnnotationProcessor extends RestxAbstractProcessor {
                 String.format("path param(s) %s not found among method parameters", pathParamNamesToMatch),
                     annotation.methodElem);
         }
+    }
+
+    public static <T> T getAnnotationValue(VariableElement p, Class annotationClazz, String methodName, Class<T> valueClazz) {
+        List<? extends AnnotationMirror> annotationMirrors = p.getAnnotationMirrors();
+        for(AnnotationMirror annotationMirror : annotationMirrors){
+            if(annotationMirror.getAnnotationType().toString().equals(annotationClazz.getCanonicalName())){
+                for(Map.Entry<? extends ExecutableElement,? extends AnnotationValue> entry : annotationMirror.getElementValues().entrySet()){
+                    if(entry.getKey().getSimpleName().contentEquals(methodName)){
+                        return (T)entry.getValue().getValue();
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private ResourceGroup getResourceGroup(RestxResource r, Map<String, ResourceGroup> groups) {
