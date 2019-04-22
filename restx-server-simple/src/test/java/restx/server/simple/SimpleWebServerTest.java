@@ -154,7 +154,7 @@ public class SimpleWebServerTest {
             assertThat(httpRequest.body().trim()).isIn(format("[%n" +
                     "\"test.txt\",%n" +
                     "\"test2.txt\"%n" +
-                    "]", "[%n" +
+                    "]"), String.format("[%n" +
                     "\"test2.txt\",%n" +
                     "\"test.txt\"%n" +
                     "]"));
