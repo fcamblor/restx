@@ -1,13 +1,11 @@
 package restx.i18n;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.github.kevinsawicki.http.HttpRequest;
 import org.junit.ClassRule;
 import org.junit.Test;
-
-import com.github.kevinsawicki.http.HttpRequest;
-
 import restx.tests.RestxServerRule;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Date: 2/2/14

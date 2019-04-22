@@ -182,30 +182,19 @@ public class SimpleWebServerTest {
             assertThat(httpRequest.body().trim()).isEqualTo(format("[%n]"));
 
 
+            httpRequest = HttpRequest.delete(server.baseUrl() + "/api/test/dir/");
+            assertThat(httpRequest.code()).isEqualTo(HttpStatus.NO_CONTENT.getCode());
+
+            httpRequest = HttpRequest.get(server.baseUrl() + "/api/test/");
+            assertThat(httpRequest.code()).isEqualTo(200);
+            assertThat(httpRequest.body().trim()).isEqualTo(format("[%n]"));
+
             httpRequest = HttpRequest.put(server.baseUrl() + "/api/test/dir/test.txt").send("bonjour");
             assertThat(httpRequest.code()).isEqualTo(HttpStatus.CREATED.getCode());
 
             httpRequest = HttpRequest.get(server.baseUrl() + "/api/test/dir/test.txt");
             assertThat(httpRequest.code()).isEqualTo(200);
             assertThat(httpRequest.body().trim()).isEqualTo("bonjour");
-            /**
-             * the delete is done after the addition here because windows 
-             * Files.delete leave the folder in an unstable condition.
-             */
-
-            httpRequest = HttpRequest.delete(server.baseUrl() + "/api/test/dir/test.txt");
-            assertThat(httpRequest.code()).isEqualTo(HttpStatus.NO_CONTENT.getCode());
-            
-            httpRequest = HttpRequest.delete(server.baseUrl() + "/api/test/dir/");
-            assertThat(httpRequest.code()).isEqualTo(HttpStatus.NO_CONTENT.getCode());
-
-            httpRequest = HttpRequest.get(server.baseUrl() + "/api/test/");
-            assertThat(httpRequest.code()).isEqualTo(200);
-            /**
-             * The test below will fail on Windows due to the directory not being completely
-             * erased by Files.delete. Comment out on windows. 
-             */
-            assertThat(httpRequest.body().trim()).isEqualTo(format("[%n]"));
         } finally {
             server.stop();
         }

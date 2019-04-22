@@ -1,23 +1,15 @@
 package restx.specs.mongo;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.extractProperty;
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-import java.util.List;
-
-import org.assertj.core.data.MapEntry;
-import org.junit.Test;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-
+import org.assertj.core.data.MapEntry;
+import org.junit.Test;
 import restx.factory.Factory;
 import restx.specs.RestxSpec;
 import restx.specs.RestxSpecLoader;
 import restx.specs.WhenHttpRequest;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * User: xavierhanin
@@ -27,6 +19,7 @@ import restx.specs.WhenHttpRequest;
 public class GivenJongoCollectionTest {
 
     private RestxSpecLoader restxSpecLoader = new RestxSpecLoader(Factory.getInstance());
+
     @Test
     public void should_load_from_yaml() throws Exception {
         RestxSpec testCase = restxSpecLoader.load(
@@ -36,21 +29,14 @@ public class GivenJongoCollectionTest {
         assertThat(testCase.getTitle()).isEqualTo("should validate salary for casual reception 1st month");
         assertThat(extractProperty("collection").from(testCase.getGiven()))
                 .containsExactly("contracts", "events", "salaries");
-        List<Object> from = extractProperty("data").from(testCase.getGiven());
-        List<Object> from2 = new java.util.ArrayList<>(); 
-        
-//        assertEquals(from.get(0), "[ { \"_id\": \"511bd1267638b9481a66f385\", \"title\": \"test1\" } ]\n");
-        List<String> expected = Arrays.asList(format(
-                        "[ { \"_id\": \"511bd1267638b9481a66f385\", \"title\": \"test1\" } ]%n"),
-                        format("[\n" +
+        assertThat(extractProperty("data").from(testCase.getGiven()))
+                .containsExactly(
+                        "[ { \"_id\": \"511bd1267638b9481a66f385\", \"title\": \"test1\" } ]\n",
+                        "[\n" +
                                 "{ \"_id\": \"511bd1267638b9481a66f385\", \"title\": \"example1\" },\n" +
                                 "{ \"_id\": \"511bd1297638b9481a66f386\", \"title\": \"example2\" }\n" +
-                                "]\n"),
+                                "]\n",
                         "");
-        for(int i=0;i<from.size();i++) {
-            assertEquals("item at index " + i, expected.get(i), (String) from.get(i));
-        }
-        
 
         assertThat(extractProperty("method").from(testCase.getWhens()))
                 .containsExactly("PUT", "GET", "GET");
@@ -88,7 +74,6 @@ public class GivenJongoCollectionTest {
                 "restx/tests/restx_test_case_example_1.yaml");
 
         String actual = testCase.toString();
-//        System.out.println("actual = " + actual);
         assertThat(actual).isEqualTo(Resources.toString(
                                 Resources.getResource("restx/tests/expected_restx_case_example_1.yaml"),
                                 Charsets.UTF_8));

@@ -3,7 +3,6 @@ package restx.tests.json;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -56,8 +55,8 @@ public class JsonAssertionsTest {
                     .isSameJsonAs("{\"key1\": [{\"key2\": \"val22\"}]}");
             fail("should throw error when not same");
         } catch (AssertionError e) {
-            assertEquals(
-                    String.format("Expecting:\n" +
+            assertThat(e).hasMessage(
+                    format("Expecting:\n" +
                             "  {\"key1\": [{\"key2\": \"val21\", \"key3\": \"val31\"}, {\"key2\": \"val22\", \"key3\": \"val32\"}]}\n" +
                             "to be same json as:\n" +
                             "  {\"key1\": [{\"key2\": \"val22\"}]}\n" +
@@ -80,8 +79,7 @@ public class JsonAssertionsTest {
                             "      \"key2\" : \"val22\"%n" +
                             "    } ]%n" +
                             "  }\n" +
-                            "\n"),
-                            e.getMessage()
+                            "\n")
             );
         }
     }
@@ -131,7 +129,7 @@ public class JsonAssertionsTest {
             JsonAssertions.assertThat("{\"key1\": [{\"key2\": \"val2\"}]}").isSameJsonAs("{\"key1\": []}");
             fail("should throw error when not same");
         } catch (AssertionError e) {
-            assertEquals(
+            assertThat(e).hasMessage(
                     format("Expecting:\n" +
                             "  {\"key1\": [{\"key2\": \"val2\"}]}\n" +
                             "to be same json as:\n" +
@@ -142,7 +140,7 @@ public class JsonAssertionsTest {
                             "01) extra element(s) in array at position 0 at path './key1' with value(s):\n" +
                             "      [ {%n" +
                             "        \"key2\" : \"val2\"%n" +
-                            "      } ]\n"), e.getMessage());
+                            "      } ]\n"));
         }
     }
 
@@ -152,7 +150,7 @@ public class JsonAssertionsTest {
             JsonAssertions.assertThat("{\"key1\": []}").isSameJsonAs("{\"key1\": [{\"key2\": \"val2\"}]}");
             fail("should throw error when not same");
         } catch (AssertionError e) {
-            assertEquals(format("Expecting:\n" +
+            assertThat(e).hasMessage(format("Expecting:\n" +
                     "  {\"key1\": []}\n" +
                     "to be same json as:\n" +
                     "  {\"key1\": [{\"key2\": \"val2\"}]}\n" +
@@ -162,7 +160,7 @@ public class JsonAssertionsTest {
                     "01) missing element(s) in array at position 0 at path './key1' expected value(s):\n" +
                     "      [ {%n" +
                     "        \"key2\" : \"val2\"%n" +
-                    "      } ]\n"), e.getMessage());
+                    "      } ]\n"));
                     
         }
     }
