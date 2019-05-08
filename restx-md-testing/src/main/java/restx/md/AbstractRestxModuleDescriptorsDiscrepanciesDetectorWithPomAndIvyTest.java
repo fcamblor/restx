@@ -79,7 +79,7 @@ public abstract class AbstractRestxModuleDescriptorsDiscrepanciesDetectorWithPom
                         mavenVerifier.executeGoal("org.apache.maven.plugins:maven-help-plugin:2.2:effective-pom");
                         mavenVerifier.verifyErrorFreeLog();
 
-                        Assert.assertTrue(logFile.delete());
+                        logFile.deleteOnExit();
                         removeGeneratedLineIn(effectivePom);
                     } catch (VerificationException | IOException e) {
                         String wrappingMessage;
@@ -138,8 +138,9 @@ public abstract class AbstractRestxModuleDescriptorsDiscrepanciesDetectorWithPom
 
         public abstract RestxBuild.Generator generator();
         public void assertExistingAndGeneratedDescriptorsAreSimilar(File existingDescriptor, File generatedDescriptor, TemporaryFolder tempFolder) throws IOException {
-            Assert.assertEquals(com.google.common.io.Files.toString(existingDescriptor, Charsets.UTF_8),
-                    com.google.common.io.Files.toString(generatedDescriptor, Charsets.UTF_8));
+            Assert.assertEquals(
+                    com.google.common.io.Files.toString(existingDescriptor, Charsets.UTF_8).replaceAll(String.format("%n"), "\n"),
+                    com.google.common.io.Files.toString(generatedDescriptor, Charsets.UTF_8).replaceAll(String.format("%n"), "\n"));
         }
     }
 
@@ -176,7 +177,7 @@ public abstract class AbstractRestxModuleDescriptorsDiscrepanciesDetectorWithPom
     private static Path getRestxSourcesRootDir(String sysPropertyName) {
         String restxShellSourcesRootDirProp = System.getProperty(sysPropertyName);
         if(restxShellSourcesRootDirProp == null) {
-            throw new IllegalArgumentException(String.format("You need to put -D%s=/path/to/restx-shell/rootdir while executing this test !", sysPropertyName));
+            throw new IllegalArgumentException(String.format("You need to put -D%s=/path/to/restx-multimodules/rootdir while executing this test !", sysPropertyName));
         }
         return Paths.get(restxShellSourcesRootDirProp);
     }
